@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment-local-build
+  labels:
+    app: sidecar-proxy-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecar-proxy-example
+  template:
+    metadata:
+      labels:
+        app: sidecar-proxy-example
+    spec:
+      containers:
+      - name: sidecar-proxy
+        image: anacondong/sidecar-proxy-example-sidecar-proxy:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      - name: application
+        image: anacondong/sidecar-proxy-example:latest
+        imagePullPolicy: Always

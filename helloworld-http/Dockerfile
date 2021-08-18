@@ -1,9 +1,20 @@
-FROM golang:alpine as builder
-RUN mkdir /build 
-ADD . /build/
-WORKDIR /build 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
-FROM scratch
-COPY --from=builder /build/main /app/
+## We specify the base image we need for our
+## go application
+FROM golang:1.12.0-alpine3.9
+## We create an /app directory within our
+## image that will hold our application source
+## files
+RUN mkdir /app
+## We copy everything in the root directory
+## into our /app directory
+ADD . /app
+## We specify that we now wish to execute 
+## any further commands inside our /app
+## directory
 WORKDIR /app
-CMD ["./main"]
+## we run go build to compile the binary
+## executable of our Go program
+RUN go build -o main .
+## Our start command which kicks off
+## our newly created binary executable
+CMD ["/app/main"]
