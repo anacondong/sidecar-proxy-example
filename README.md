@@ -28,6 +28,12 @@ docker build -t anacondong/sidecar-proxy-example .
 
 kubectl apply -f kubernetes-deployment-local-build.yaml
 
+kubectl expose deployment nginx-deployment-local-build --type=LoadBalancer --name=my-service-nginx-deployment-local-build
+
+kubectl get services my-service-nginx-deployment-local-build
+
+minikube service my-service-nginx-deployment-local-build
+
 //////////////////////////////
 
 ref: Example application for article at https://medium.com/@lukas.eichler/securing-pods-with-sidecar-proxies-d84f8d34be3e about Kubernetes Sidecar proxies
